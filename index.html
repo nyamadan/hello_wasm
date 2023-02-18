@@ -10,20 +10,22 @@
       import Module from "./build/main.js";
 
       async function main() {
+        console.log("[[C++]]");
+        const main = await Module({
+          locateFile(path) {
+            return `./build/${path}`;
+          },
+          dynamicLibraries: ["side.wasm"],
+        });
+
         console.log("[[RUST]]");
         const side = await WebAssembly.instantiate(
           await fetch("/target/wasm32-unknown-unknown/debug/side.wasm")
             .then((x) => x.blob())
             .then((x) => x.arrayBuffer())
         );
+        // @ts-ignore
         console.log(`add(1, 2) = ${side.instance.exports.add(1, 2)}`);
-
-        console.log("[[C++]]");
-        const main = await Module({
-          locateFile(path) {
-            return `./build/${path}`;
-          },
-        });
       }
       main();
     </script>

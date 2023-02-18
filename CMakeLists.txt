@@ -16,6 +16,7 @@ target_link_options(main PRIVATE
     "-sEXPORT_ES6"
     "-sMODULARIZE"
     "-sMAIN_MODULE=2"
+    "-sERROR_ON_UNDEFINED_SYMBOLS=0"
 )
 set_target_properties(main PROPERTIES SUFFIX ".js")
 add_dependencies(main side)
