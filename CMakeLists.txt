@@ -12,6 +12,7 @@ set_target_properties(side PROPERTIES SUFFIX ".wasm")
 add_executable(main main.c)
 target_compile_options(main PRIVATE "-fPIC")
 target_link_options(main PRIVATE
+    "-sSINGLE_FILE"
     "-sEXPORT_ES6"
     "-sMODULARIZE"
     "-sMAIN_MODULE=2"
