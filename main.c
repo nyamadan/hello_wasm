@@ -7,18 +7,6 @@
 
 int *s_memory = NULL;
 
-EMSCRIPTEN_KEEPALIVE int *get_memory() {
-  if (s_memory == NULL) {
-    s_memory = malloc(sizeof(int));
-    *s_memory = 0;
-  };
-  return s_memory;
-}
-
-EMSCRIPTEN_KEEPALIVE void print_memory() {
-  printf("memory: %d\n", *get_memory());
-}
-
 int add(int a, int b);
 
 void on_load(const char *filename) {
