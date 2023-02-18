@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="module">
+      //@ts-check
+      import Module from "./build/main.js";
+
+      async function main() {
+        console.log("[[RUST]]");
+        const side = await WebAssembly.instantiate(
+          await fetch("/target/wasm32-unknown-unknown/debug/side.wasm")
+            .then((x) => x.blob())
+            .then((x) => x.arrayBuffer())
+        );
+        console.log(`add(1, 2) = ${side.instance.exports.add(1, 2)}`);
+
+        console.log("[[C++]]");
+        const main = await Module({
+          locateFile(path) {
+            return `./build/${path}`;
+          },
+        });
+      }
+      main();
+    </script>
+  </head>
+  <body></body>
+</html>
